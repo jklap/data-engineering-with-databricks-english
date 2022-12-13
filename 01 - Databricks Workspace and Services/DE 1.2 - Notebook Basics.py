@@ -60,7 +60,7 @@
 
 # COMMAND ----------
 
-print("I'm running Python!")
+# MAGIC %lsmagic
 
 # COMMAND ----------
 
@@ -258,6 +258,7 @@ print(f"DA:                   {DA}")
 print(f"DA.username:          {DA.username}")
 print(f"DA.paths.working_dir: {DA.paths.working_dir}")
 print(f"DA.schema_name:       {DA.schema_name}")
+print(f"DA.paths.dataset:     {DA.paths.datasets}")
 
 # COMMAND ----------
 
@@ -291,6 +292,10 @@ print(f"DA.schema_name:       {DA.schema_name}")
 
 path = f"{DA.paths.datasets}"
 dbutils.fs.ls(path)
+
+# COMMAND ----------
+
+# MAGIC %fs ls dbfs:/mnt/dbacademy-datasets/data-engineering-with-databricks/v02
 
 # COMMAND ----------
 
