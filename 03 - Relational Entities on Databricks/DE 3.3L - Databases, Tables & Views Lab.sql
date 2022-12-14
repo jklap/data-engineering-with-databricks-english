@@ -77,9 +77,11 @@ FROM parquet.`${DA.paths.datasets}/weather/StationData-parquet`
 
 -- COMMAND ----------
 
--- TODO
+create schema if not exists ${da.schema_name}
 
-<FILL-IN> ${da.schema_name}
+-- COMMAND ----------
+
+describe schema extended ${da.schema_name}
 
 -- COMMAND ----------
 
@@ -103,9 +105,7 @@ FROM parquet.`${DA.paths.datasets}/weather/StationData-parquet`
 
 -- COMMAND ----------
 
--- TODO
-
-<FILL-IN> ${da.schema_name}
+use ${da.schema_name}
 
 -- COMMAND ----------
 
@@ -128,9 +128,7 @@ FROM parquet.`${DA.paths.datasets}/weather/StationData-parquet`
 
 -- COMMAND ----------
 
--- TODO
-
-<FILL-IN>
+create or replace table weather_managed as
 SELECT * 
 FROM parquet.`${DA.paths.datasets}/weather/StationData-parquet`
 
@@ -157,9 +155,7 @@ FROM parquet.`${DA.paths.datasets}/weather/StationData-parquet`
 
 -- COMMAND ----------
 
--- TODO
-
-<FILL-IN>
+create or replace table weather_external
 LOCATION "${da.paths.working_dir}/lab/external"
 AS SELECT * 
 FROM parquet.`${DA.paths.datasets}/weather/StationData-parquet`
@@ -248,9 +244,7 @@ DESCRIBE EXTENDED weather_external
 
 -- COMMAND ----------
 
--- TODO
-
-<FILL_IN> ${da.schema_name}
+drop schema ${da.schema_name} cascade
 
 -- COMMAND ----------
 
@@ -275,8 +269,8 @@ DESCRIBE EXTENDED weather_external
 -- COMMAND ----------
 
 -- MAGIC %python
--- MAGIC # files = dbutils.fs.ls(managedTablePath)
--- MAGIC # display(files)
+-- MAGIC files = dbutils.fs.ls(managedTablePath)
+-- MAGIC display(files)
 
 -- COMMAND ----------
 
@@ -322,9 +316,9 @@ USE ${da.schema_name};
 
 -- COMMAND ----------
 
--- TODO
-
-<FILL_IN>
+create or replace table weather_managed as
+SELECT * 
+FROM parquet.`${DA.paths.datasets}/weather/StationData-parquet`
 
 -- COMMAND ----------
 
@@ -366,12 +360,20 @@ USE ${da.schema_name};
 
 -- COMMAND ----------
 
--- TODO
-
-<FILL-IN>
+create or replace view celsius
 AS (SELECT *
   FROM weather_managed
-  WHERE UNIT = "C")
+  WHERE UNIT = "C");
+  
+create or replace temporary view celsius_temp 
+AS (SELECT *
+  FROM weather_managed
+  WHERE UNIT = "C");
+  
+create or replace global temporary view celsius_global
+AS (SELECT *
+  FROM weather_managed
+  WHERE UNIT = "C");
 
 -- COMMAND ----------
 
@@ -394,12 +396,7 @@ AS (SELECT *
 
 -- COMMAND ----------
 
--- TODO
-
-<FILL-IN>
-AS (SELECT *
-  FROM weather_managed
-  WHERE UNIT = "C")
+-- done above
 
 -- COMMAND ----------
 
@@ -422,12 +419,7 @@ AS (SELECT *
 
 -- COMMAND ----------
 
--- TODO
-
-<FILL-IN>
-AS (SELECT *
-  FROM weather_managed
-  WHERE UNIT = "C")
+-- done above
 
 -- COMMAND ----------
 
